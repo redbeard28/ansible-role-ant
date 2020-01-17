@@ -1,0 +1,4 @@
+---
+ant_remove: false
+ant_version: 1.10.7
+ant_install_prefix: /opt

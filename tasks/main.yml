@@ -1,0 +1,43 @@
+---
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - create (download) directory"
+  file:
+    path: "{{ ant_downloads_path }}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0755
+
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - Download apache-ant-{{ ant_version }}-bin.tar.gz"
+  get_url:
+    url: "http://apache.cs.uu.nl/ant/binaries/apache-ant-{{ ant_version }}-bin.tar.gz"
+    dest: "{{ ant_downloads_path }}/apache-ant-{{ ant_version }}-bin.tar.gz"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - Install Apache Ant"
+  unarchive:
+    src: "{{ ant_downloads_path }}/apache-ant-{{ ant_version }}-bin.tar.gz"
+    dest: "{{ ant_install_prefix }}"
+    creates: "{{ ant_install_prefix }}/apache-ant-{{ ant_version }}"
+    copy: false
+
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - Add ant to PATH"
+  become: true
+  copy:
+    dest: /etc/profile.d/ant.sh
+    owner: root
+    group: root
+    mode: 0644
+    content: 'export PATH="/{{ ant_install_prefix }}/apache-ant-{{ ant_version }}/bin:$PATH"'
+
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - Remove Apache Ant"
+  become: true
+  file:
+    path: "{{ item }}"
+    state: absent
+  with_items:
+    - "{{ ant_downloads_path }}"
+    - "{{ ant_install_prefix }}/apache-ant-{{ ant_version }}"
+    - "/etc/profile.d/ant.sh"
+  when: ant_remove == 'true'
