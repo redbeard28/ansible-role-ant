@@ -1,3 +1,8 @@
+
+
+<span style="display:block" class="note">![Apache Ant](https://ant.apache.org/images/project-logo.gif)</span>
+
+
 # ANSIBLE-ROLE-ANT
 ================
 
@@ -32,7 +37,7 @@ More info => [Ansible Docs](https://docs.ansible.com/ansible-container/roles/acc
 ## Requirements
 
  * Ansible 2.9+
-
+ * Java installed (see ansible-galaxy redbeard28.openjdk)
 
 Role Variables
 --------------

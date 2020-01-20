@@ -1,0 +1,7 @@
+#!/bin/bash
+
+export ANT_HOME="/{{ ant_install_prefix }}/apache-ant-{{ ant_version }}"
+export ANT_BIN="$ANT_HOME/bin"
+cd $ANT_HOME
+$ANT_BIN/ant -f fetch.xml -Ddest=system
+

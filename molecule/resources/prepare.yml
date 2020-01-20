@@ -8,3 +8,4 @@
     - role: bootstrap
       bootstrap_wait_for_host: true
     - role: basetools
+    - role: openjdk

@@ -10,7 +10,7 @@ lint:
   options:
     config-file: molecule/default/tests/yaml-int.yml
 platforms:
-  - name: "ansible-role-openjdk-${image:-debian}-${tag:-latest}"
+  - name: "ansible-role-ant-${image:-debian}-${tag:-latest}"
     image: "${namespace:-registry.hub.docker.com/library}/${image:-debian}:${tag:-latest}"
     pre_build_image: true
     privileged: true

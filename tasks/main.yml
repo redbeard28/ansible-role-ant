@@ -29,7 +29,22 @@
     owner: root
     group: root
     mode: 0644
-    content: 'export PATH="/{{ ant_install_prefix }}/apache-ant-{{ ant_version }}/bin:$PATH"'
+    content: |
+      export ANT_HOME="{{ ant_install_prefix }}/apache-ant-{{ ant_version }}"
+      export ANT_BIN="$ANT_HOME/bin"
+      export PATH="$ANT_HOME:$ANT_BIN:$PATH"
+
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - Templating ant-lib script"
+  template:
+    src: "ant-lib.sh.j2"
+    dest: "{{ ant_install_prefix }}/apache-ant-{{ ant_version }}/ant-lib.sh"
+    owner: root
+    group: root
+    mode: 0744
+
+- name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - get the library dependencies of most of the Ant tasks that require them"
+  command: "{{ ant_install_prefix }}/apache-ant-{{ ant_version }}/ant-lib.sh"
+  register: ant_lib_install
 
 - name: "{{ ansible_distribution | lower }} | {{ ansible_distribution_release }} - Remove Apache Ant"
   become: true
